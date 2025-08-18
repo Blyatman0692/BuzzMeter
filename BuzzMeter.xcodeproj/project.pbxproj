@@ -10,9 +10,25 @@
 		60FAF5892E526964001335CC /* BuzzMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuzzMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		60B97DA52E529D170027693D /* Exceptions for "BuzzMeter" folder in "BuzzMeter" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Domain/Models/BuzzLevel.swift,
+				Domain/Models/Drink.swift,
+				Domain/Models/DrinkSesstion.swift,
+				Domain/Models/UserProfile.swift,
+			);
+			target = 60FAF5882E526964001335CC /* BuzzMeter */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		60FAF58B2E526964001335CC /* BuzzMeter */ = {
+		60B97D9E2E529CAA0027693D /* BuzzMeter */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				60B97DA52E529D170027693D /* Exceptions for "BuzzMeter" folder in "BuzzMeter" target */,
+			);
 			path = BuzzMeter;
 			sourceTree = "<group>";
 		};
@@ -32,7 +48,7 @@
 		60FAF5802E526964001335CC = {
 			isa = PBXGroup;
 			children = (
-				60FAF58B2E526964001335CC /* BuzzMeter */,
+				60B97D9E2E529CAA0027693D /* BuzzMeter */,
 				60FAF58A2E526964001335CC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,7 +77,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				60FAF58B2E526964001335CC /* BuzzMeter */,
+				60B97D9E2E529CAA0027693D /* BuzzMeter */,
 			);
 			name = BuzzMeter;
 			packageProductDependencies = (
@@ -253,6 +269,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -280,6 +297,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
