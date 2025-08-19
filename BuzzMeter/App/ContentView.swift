@@ -13,7 +13,7 @@ struct ContentView: View {
             VStack(spacing: 20) {
                 NavigationLink("User Profile", destination: UserProfileView())
                 NavigationLink("Input Current Drink", destination: DrinkInputView())
-                NavigationLink("Current Session", destination: CurrentSessionView())
+                NavigationLink("Current Session", destination: DrinkSessionView())
             }
             .navigationTitle("BuzzMeter")
         }

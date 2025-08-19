@@ -40,7 +40,7 @@ struct DrinkInputView: View {
             }
             TextField("Notes", text: $notes)
 
-            Button("Save") {
+            Button("Start") {
                 let drink = Drink(
                     category: category,
                     name: name.isEmpty ? category.rawValue.capitalized : name,
@@ -48,7 +48,7 @@ struct DrinkInputView: View {
                     abv: abv,
                     notes: notes.isEmpty ? nil : notes
                 )
-                appVM.addDrink(drink)
+                appVM.addDrinkToSession(drink)
             }
             .disabled(volumeMl <= 0 || abv <= 0 || abv > 100)
         }

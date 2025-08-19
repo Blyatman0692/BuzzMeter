@@ -11,12 +11,14 @@ import Combine
 
 final class AppViewModel : ObservableObject {
     @Published var userProfile: UserProfile = .init()
+    @Published var session: DrinkSession = .init()
     
-    func updateUserName(_ name: String) {
-        userProfile.name = name
+    
+    // DrinkSession related functions
+    func addDrinkToSession(_ drink: Drink) {
+       let entry = DrinkSession.Entry(drink: drink, startedAt: Date())
+        session.entries.append(entry)
     }
     
-    func getUserName() -> String {
-        return userProfile.name
-    }
+    
 }
