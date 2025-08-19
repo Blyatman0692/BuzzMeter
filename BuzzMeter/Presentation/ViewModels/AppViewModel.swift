@@ -6,21 +6,17 @@
 //
 
 import SwiftUI
+import Foundation
+import Combine
 
-
-//final class AppViewModel: ObservableObject {
-//    // Inputs
-//    @Published var profile = UserProfile()
-//    @Published var currentDrink = Drink()
-//    @Published var goalLevel: BuzzLevel = .tipsy     // example enum value
-//
-//    // Mock outputs
-//    @Published var estimatedBAC: Double = 0.05
-//    @Published var buzzDescription: String = "Tipsy"
-//
-//    func recomputeMock() {
-//        // For now: simple deterministic mock so UI moves
-//        estimatedBAC = 0.04 + Double.random(in: 0...0.02)
-//        buzzDescription = estimatedBAC < 0.03 ? "Light" : "Tipsy"
-//    }
-//}
+final class AppViewModel : ObservableObject {
+    @Published var userProfile: UserProfile = .init()
+    
+    func updateUserName(_ name: String) {
+        userProfile.name = name
+    }
+    
+    func getUserName() -> String {
+        return userProfile.name
+    }
+}
