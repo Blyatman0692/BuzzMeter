@@ -6,7 +6,7 @@
 //
 
 struct Drink {
-    enum Category: string {
+    enum Category: String {
         case cocktail, wine, beer
         var id: String { rawValue }
     }
