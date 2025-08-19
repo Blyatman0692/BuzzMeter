@@ -10,11 +10,10 @@ import SwiftUI
 struct DrinkInputView: View {
     @EnvironmentObject var appVM: AppViewModel
 
-    @State private var category: Drink.Category = .beer
+    @State private var category: Drink.Category = .cocktail
     @State private var name: String = ""
-    @State private var volumeMl: Double = 355
-    @State private var abv: Double = 5
-    @State private var notes: String = ""
+    @State private var volumeMl: Double = 0
+    @State private var abv: Double = Drink.Category.cocktail.defaultABV
 
     var body: some View {
         Form {
@@ -22,6 +21,9 @@ struct DrinkInputView: View {
                 ForEach(Drink.Category.allCases) { c in
                     Text(c.rawValue.capitalized).tag(c)
                 }
+            }
+            .onChange(of: category) {
+                abv = category.defaultABV
             }
             TextField("Name", text: $name)
             HStack {
@@ -38,15 +40,13 @@ struct DrinkInputView: View {
                     .keyboardType(.decimalPad)
                     .multilineTextAlignment(.trailing)
             }
-            TextField("Notes", text: $notes)
-
+            
             Button("Start") {
                 let drink = Drink(
                     category: category,
                     name: name.isEmpty ? category.rawValue.capitalized : name,
                     volumeMl: volumeMl,
-                    abv: abv,
-                    notes: notes.isEmpty ? nil : notes
+                    abv: abv
                 )
                 appVM.addDrinkToSession(drink)
             }
