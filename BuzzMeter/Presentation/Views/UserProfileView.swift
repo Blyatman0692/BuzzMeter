@@ -79,6 +79,10 @@ struct UserProfileView: View {
             }
         }
         // keep reasonable values
+        .onChange(of: appVM.userProfile.age) { oldValue, newValue in
+            let clamped = min(max(newValue, 0), 120)
+            if newValue != clamped { appVM.userProfile.age = clamped }
+        }
         .onChange(of: appVM.userProfile.weightKg) { oldValue, newValue in
             let clamped = min(max(newValue, 0), 500)
             if newValue != clamped { appVM.userProfile.weightKg = clamped }
