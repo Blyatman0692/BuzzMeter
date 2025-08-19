@@ -8,13 +8,57 @@
 import SwiftUI
 
 struct DrinkInputView: View {
-//    @EnvironmentObject private var vm: AppViewModel
+    @EnvironmentObject var appVM: AppViewModel
+
+    @State private var category: Drink.Category = .beer
+    @State private var name: String = ""
+    @State private var volumeMl: Double = 355
+    @State private var abv: Double = 5
+    @State private var notes: String = ""
 
     var body: some View {
         Form {
-            TextField("Volume (ml)",text: .constant("10"))
-            TextField("ABV (%)",text: .constant("5"))
+            Picker("Category", selection: $category) {
+                ForEach(Drink.Category.allCases) { c in
+                    Text(c.rawValue.capitalized).tag(c)
+                }
+            }
+            TextField("Name", text: $name)
+            HStack {
+                Text("Volume (ml)")
+                Spacer()
+                TextField("0", value: $volumeMl, format: .number)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+            }
+            HStack {
+                Text("ABV (%)")
+                Spacer()
+                TextField("0", value: $abv, format: .number)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+            }
+            TextField("Notes", text: $notes)
+
+            Button("Save") {
+                let drink = Drink(
+                    category: category,
+                    name: name.isEmpty ? category.rawValue.capitalized : name,
+                    volumeMl: volumeMl,
+                    abv: abv,
+                    notes: notes.isEmpty ? nil : notes
+                )
+                appVM.addDrink(drink)
+            }
+            .disabled(volumeMl <= 0 || abv <= 0 || abv > 100)
         }
-        .navigationTitle("Current Drink")
+        .navigationTitle("Add Drink")
+    }
+}
+
+#Preview {
+    NavigationView {
+        DrinkInputView()
+        .environmentObject(AppViewModel())
     }
 }
