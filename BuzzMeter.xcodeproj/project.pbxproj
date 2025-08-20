@@ -6,7 +6,22 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXCopyFilesBuildPhase section */
+		603984402E5599EE009AF10C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		603984272E5599EC009AF10C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		603984292E5599EC009AF10C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		60FAF5892E526964001335CC /* BuzzMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuzzMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -29,10 +44,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		603984262E5599EC009AF10C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				603984272E5599EC009AF10C /* WidgetKit.framework */,
+				603984292E5599EC009AF10C /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		60FAF5802E526964001335CC = {
 			isa = PBXGroup;
 			children = (
 				60B97D9E2E529CAA0027693D /* BuzzMeter */,
+				603984262E5599EC009AF10C /* Frameworks */,
 				60FAF58A2E526964001335CC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +80,7 @@
 				60FAF5852E526964001335CC /* Sources */,
 				60FAF5862E526964001335CC /* Frameworks */,
 				60FAF5872E526964001335CC /* Resources */,
+				603984402E5599EE009AF10C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
