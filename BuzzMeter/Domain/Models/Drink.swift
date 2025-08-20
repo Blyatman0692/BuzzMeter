@@ -31,4 +31,8 @@ struct Drink: Identifiable, Codable {
     var standardDrinks: Double {
         (volumeMl * (abv / 100) * 0.789) / 14.0
     }
+    
+    var alcoholGrams: Double {
+        volumeMl * (abv / 100.0) * 0.789
+    }
 }
