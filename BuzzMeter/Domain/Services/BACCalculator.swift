@@ -112,34 +112,122 @@ struct BACCalculator {
         return bac / max(betaPerHour, 1e-9)
     }
     
+    static func timePrediction() {}
+    
+    
     static func description(for bac: Double) -> String {
-            switch bac {
-            case ..<0.02:
-                return "Sober"
+        let level = BuzzLevel.fromBAC(bac)
+        return level.displayName
+    }
+}
 
-            case 0.02..<0.05:
-                return "Mild Effects (Lightheaded)"
+extension BACCalculator {
+    /// Earliest Date at which projected BAC will be <= targetBAC, from `date`.
+    /// Returns `nil` if it doesn't drop to target within `maxHours`.
+    static func earliestTime(
+        toReach targetBAC: Double,
+        from date: Date,
+        session: DrinkSession,
+        user: UserProfile,
+        eaten: Bool,
+        maxHours: Double = 24,
+        toleranceSeconds: TimeInterval = 30
+    ) -> Date? {
+        func g(_ dt: TimeInterval) -> Double {
+            projectedBAC(
+                at: date.addingTimeInterval(dt),
+                session: session,
+                user: user,
+                eaten: eaten
+            ) - targetBAC
+        }
 
-            case 0.05..<0.08:
-                return "Buzzed"
+        // If we're already at/below the target, return now.
+        if g(0) <= 0 { return date }
 
-            case 0.08..<0.11:
-                return "Legally Intoxicated"
+        // Exponential search to bracket the root: find hi with g(hi) <= 0
+        var lo: TimeInterval = 0
+        var hi: TimeInterval = 15 * 60  // start with 15 minutes
+        let maxT = maxHours * 3600
 
-            case 0.11..<0.16:
-                return "Drunk"
+        while g(hi) > 0, hi < maxT {
+            lo = hi
+            hi = min(hi * 2, maxT)
+            if hi == lo { break }
+        }
 
-            case 0.16..<0.20:
-                return "Very Drunk"
+        // If even at max horizon we’re still above target → give up.
+        if g(hi) > 0 { return nil }
 
-            case 0.20..<0.25:
-                return "Dazed and Confused"
-
-            case 0.25..<0.31:
-                return "Stupor"
-
-            default:
-                return "Coma"
+        // Bisection on [lo, hi]
+        var left = lo
+        var right = hi
+        while right - left > toleranceSeconds {
+            let mid = 0.5 * (left + right)
+            if g(mid) > 0 {
+                left = mid
+            } else {
+                right = mid
             }
         }
+
+        return date.addingTimeInterval(right)
+    }
+
+    /// Conservative: earliest time you can take `nextDrink` and remain <= targetBAC
+    /// assuming *instant absorption* of the next drink (worst-case jump).
+    static func waitUntilSafeForNextDrink(
+        targetBAC: Double,
+        nextDrink: Drink,
+        from date: Date,
+        session: DrinkSession,
+        user: UserProfile,
+        eaten: Bool,
+        maxHours: Double = 24,
+        toleranceSeconds: TimeInterval = 30
+    ) -> Date? {
+        // Worst-case jump from the next drink if absorbed instantly at take time.
+        let r = user.alcoholDistributionRatio
+        let bodyMassGrams = max(user.weightKg, 1) * 1000.0
+        let deltaNextWorst = (nextDrink.alcoholGrams / (bodyMassGrams * r)) * 100.0
+
+        func h(_ dt: TimeInterval) -> Double {
+            projectedBAC(
+                at: date.addingTimeInterval(dt),
+                session: session,
+                user: user,
+                eaten: eaten
+            ) + deltaNextWorst - targetBAC
+        }
+
+        // Already safe now?
+        if h(0) <= 0 { return date }
+
+        // Exponential search to bracket the root
+        var lo: TimeInterval = 0
+        var hi: TimeInterval = 15 * 60
+        let maxT = maxHours * 3600
+
+        while h(hi) > 0, hi < maxT {
+            lo = hi
+            hi = min(hi * 2, maxT)
+            if hi == lo { break }
+        }
+
+        if h(hi) > 0 { return nil }
+
+        // Bisection
+        var left = lo
+        var right = hi
+        while right - left > toleranceSeconds {
+            let mid = 0.5 * (left + right)
+            if h(mid) > 0 {
+                left = mid
+            } else {
+                right = mid
+            }
+        }
+
+        return date.addingTimeInterval(right)
+    }
 }
