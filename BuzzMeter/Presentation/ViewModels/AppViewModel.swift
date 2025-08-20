@@ -12,7 +12,7 @@ import Combine
 final class AppViewModel : ObservableObject {
     @Published var userProfile: UserProfile = .init()
     @Published var session: DrinkSession = .init()
-    
+    @Published var plan: BACLevelPlan?
     
     // DrinkSession related functions
     func addDrinkToSession(_ drink: Drink) {

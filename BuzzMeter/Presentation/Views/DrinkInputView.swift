@@ -9,12 +9,14 @@ import SwiftUI
 
 struct DrinkInputView: View {
     @EnvironmentObject var appVM: AppViewModel
-
+    
     @State private var category: Drink.Category = .cocktail
     @State private var name: String = ""
     @State private var volumeMl: Double = 0
     @State private var abv: Double = Drink.Category.cocktail.defaultABV
-
+    
+    @State private var navigate = false
+    
     var body: some View {
         Form {
             Picker("Category", selection: $category) {
@@ -59,6 +61,6 @@ struct DrinkInputView: View {
 #Preview {
     NavigationView {
         DrinkInputView()
-        .environmentObject(AppViewModel())
+            .environmentObject(AppViewModel())
     }
 }
