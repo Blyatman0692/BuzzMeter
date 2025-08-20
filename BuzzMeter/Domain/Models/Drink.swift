@@ -36,3 +36,14 @@ struct Drink: Identifiable, Codable {
         volumeMl * (abv / 100.0) * 0.789
     }
 }
+
+extension Drink {
+    static func `default`(for category: Category) -> Drink {
+        switch category {
+        case .beer:    return .init(category: .beer,    name: "Beer",    volumeMl: 355, abv: 5.0)
+        case .wine:    return .init(category: .wine,    name: "Wine",    volumeMl: 150, abv: 13.5)
+        case .spirit:  return .init(category: .spirit,  name: "Spirit (1.5 oz)", volumeMl: 44, abv: 40.0)
+        case .cocktail:return .init(category: .cocktail,name: "Cocktail",volumeMl: 180, abv: 15.0)
+        }
+    }
+}
