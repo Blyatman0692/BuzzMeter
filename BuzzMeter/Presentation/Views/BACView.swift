@@ -27,7 +27,7 @@ struct BACView: View {
         VStack(alignment: .leading, spacing: 14) {
 
             HStack {
-                Text("Naive BAC:")
+                Text("Naive BAC now:")
                     .font(.headline)
                 Text(currentNaiveBAC.formatted(.number.precision(.fractionLength(3))) + "%")
                     .monospacedDigit()
@@ -43,7 +43,7 @@ struct BACView: View {
             Divider().padding(.vertical, 4)
 
             HStack {
-                Text("Projected BAC:")
+                Text("Projected BAC now:")
                     .font(.headline)
                 Text(currentProjectedBAC.formatted(.number.precision(.fractionLength(3))) + "%")
                     .monospacedDigit()
