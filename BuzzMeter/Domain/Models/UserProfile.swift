@@ -21,6 +21,7 @@ struct UserProfile: Identifiable, Codable, Equatable {
     var heightCm: Double
     var sex: Sex
     
+    /// BAC related parameters
     var totalBodyWater: Double {
         switch sex {
         case .male:
@@ -29,6 +30,10 @@ struct UserProfile: Identifiable, Codable, Equatable {
         case .female:
             return -2.097 + 0.1069 * heightCm + 0.2466 * weightKg
         }
+    }
+    
+    var alcoholDistributionRatio: Double {
+        return totalBodyWater / weightKg
     }
 
     init(
