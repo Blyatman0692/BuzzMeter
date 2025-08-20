@@ -6,6 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		60ED0D422E5660D1009DE011 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60FAF5812E526964001335CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 60FAF5882E526964001335CC;
+			remoteInfo = BuzzMeter;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		603984402E5599EE009AF10C /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -22,6 +32,7 @@
 /* Begin PBXFileReference section */
 		603984272E5599EC009AF10C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		603984292E5599EC009AF10C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		60ED0D3E2E5660D1009DE011 /* BuzzMeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BuzzMeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60FAF5892E526964001335CC /* BuzzMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuzzMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -31,9 +42,21 @@
 			path = BuzzMeter;
 			sourceTree = "<group>";
 		};
+		60ED0D3F2E5660D1009DE011 /* BuzzMeterTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BuzzMeterTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		60ED0D3B2E5660D1009DE011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		60FAF5862E526964001335CC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -57,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				60B97D9E2E529CAA0027693D /* BuzzMeter */,
+				60ED0D3F2E5660D1009DE011 /* BuzzMeterTests */,
 				603984262E5599EC009AF10C /* Frameworks */,
 				60FAF58A2E526964001335CC /* Products */,
 			);
@@ -66,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				60FAF5892E526964001335CC /* BuzzMeter.app */,
+				60ED0D3E2E5660D1009DE011 /* BuzzMeterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +98,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		60ED0D3D2E5660D1009DE011 /* BuzzMeterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60ED0D442E5660D1009DE011 /* Build configuration list for PBXNativeTarget "BuzzMeterTests" */;
+			buildPhases = (
+				60ED0D3A2E5660D1009DE011 /* Sources */,
+				60ED0D3B2E5660D1009DE011 /* Frameworks */,
+				60ED0D3C2E5660D1009DE011 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				60ED0D432E5660D1009DE011 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				60ED0D3F2E5660D1009DE011 /* BuzzMeterTests */,
+			);
+			name = BuzzMeterTests;
+			packageProductDependencies = (
+			);
+			productName = BuzzMeterTests;
+			productReference = 60ED0D3E2E5660D1009DE011 /* BuzzMeterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		60FAF5882E526964001335CC /* BuzzMeter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60FAF5942E526965001335CC /* Build configuration list for PBXNativeTarget "BuzzMeter" */;
@@ -106,6 +154,10 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					60ED0D3D2E5660D1009DE011 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 60FAF5882E526964001335CC;
+					};
 					60FAF5882E526964001335CC = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -126,11 +178,19 @@
 			projectRoot = "";
 			targets = (
 				60FAF5882E526964001335CC /* BuzzMeter */,
+				60ED0D3D2E5660D1009DE011 /* BuzzMeterTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		60ED0D3C2E5660D1009DE011 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		60FAF5872E526964001335CC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -141,6 +201,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		60ED0D3A2E5660D1009DE011 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		60FAF5852E526964001335CC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,7 +217,59 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		60ED0D432E5660D1009DE011 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 60FAF5882E526964001335CC /* BuzzMeter */;
+			targetProxy = 60ED0D422E5660D1009DE011 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		60ED0D452E5660D1009DE011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "N-A.BuzzMeterTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BuzzMeter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BuzzMeter";
+				XROS_DEPLOYMENT_TARGET = 2.5;
+			};
+			name = Debug;
+		};
+		60ED0D462E5660D1009DE011 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "N-A.BuzzMeterTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BuzzMeter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BuzzMeter";
+				XROS_DEPLOYMENT_TARGET = 2.5;
+			};
+			name = Release;
+		};
 		60FAF5922E526965001335CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -331,6 +450,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		60ED0D442E5660D1009DE011 /* Build configuration list for PBXNativeTarget "BuzzMeterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60ED0D452E5660D1009DE011 /* Debug */,
+				60ED0D462E5660D1009DE011 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		60FAF5842E526964001335CC /* Build configuration list for PBXProject "BuzzMeter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
