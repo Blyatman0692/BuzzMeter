@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DrinkSessionView: View {
     @EnvironmentObject var appVM: AppViewModel
+    @State private var bac: Double = 0
 
     private var entries: [DrinkSession.Entry] {
         appVM.session.entries
@@ -71,6 +72,7 @@ struct DrinkSessionView: View {
                                 .font(.headline)
                         }
                     }
+                    
                 }
             }
         }

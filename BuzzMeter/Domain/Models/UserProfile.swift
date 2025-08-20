@@ -9,7 +9,7 @@ import Foundation
 
 struct UserProfile: Identifiable, Codable, Equatable {
     enum Sex: String, Codable, CaseIterable, Identifiable {
-        case male, female, other
+        case male, female
         var id: String { rawValue }
     }
     
@@ -20,6 +20,16 @@ struct UserProfile: Identifiable, Codable, Equatable {
     var weightKg: Double
     var heightCm: Double
     var sex: Sex
+    
+    var totalBodyWater: Double {
+        switch sex {
+        case .male:
+            return 2.447 - 0.09156 * Double(age) + 0.1074 * heightCm + 0.3362 * weightKg
+        
+        case .female:
+            return -2.097 + 0.1069 * heightCm + 0.2466 * weightKg
+        }
+    }
 
     init(
         id: UUID = UUID(),
@@ -27,7 +37,7 @@ struct UserProfile: Identifiable, Codable, Equatable {
         age: Int = 0,
         weightKg: Double = 0,
         heightCm: Double = 0,
-        sex: Sex = .other
+        sex: Sex = .male
     ) {
         self.id = id
         self.name = name

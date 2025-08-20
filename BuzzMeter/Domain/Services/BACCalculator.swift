@@ -64,7 +64,6 @@ struct BACCalculator {
         switch sex {
         case .male:   return 0.68
         case .female: return 0.55
-        case .other:  return 0.615
         }
     }
 }
