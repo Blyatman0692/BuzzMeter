@@ -14,7 +14,7 @@ struct ContentView: View {
                 NavigationLink("User Profile", destination: UserProfileView())
                 NavigationLink("Input Current Drink", destination: DrinkInputView())
                 NavigationLink("Current Session", destination: DrinkSessionView())
-                NavigationLink("BAC", destination: BACView())
+                NavigationLink("Dashboard", destination: DashboardView())
             }
             .navigationTitle("BuzzMeter")
         }
