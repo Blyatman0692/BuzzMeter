@@ -7,7 +7,7 @@
 //  Domain/Models/UserProfile.swift
 import Foundation
 
-struct UserProfile: Identifiable, Codable, Equatable {
+final class UserProfile: Identifiable, Codable {
     enum Sex: String, Codable, CaseIterable, Identifiable {
         case male, female
         var id: String { rawValue }
@@ -21,7 +21,7 @@ struct UserProfile: Identifiable, Codable, Equatable {
     var heightCm: Double
     var sex: Sex
     
-    /// BAC related parameters
+    // MARK:  BAC related parameters
     var totalBodyWater: Double {
         switch sex {
         case .male:
