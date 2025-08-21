@@ -20,6 +20,7 @@ struct DrinkSessionView: View {
     }
     
     var body: some View {
+        
         Group {
             if entries.isEmpty {
                 ContentUnavailableView(
@@ -73,6 +74,13 @@ struct DrinkSessionView: View {
                         }
                     }
                     
+                    Section("Tonight's Plan") {
+                        NavigationLink {
+                            PlanView()
+                        } label: {
+                            Label("Open Plan", systemImage: "calendar.badge.plus")
+                        }
+                    }
                 }
             }
         }
