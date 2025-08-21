@@ -33,57 +33,73 @@ struct BACCalculator {
     }
     
     
+    /// Projected BAC at `date`, summing per-drink absorption and per-drink elimination.
+    /// - Assumptions:
+    ///   - First‑order absorption after a lag (tLag).
+    ///   - Constant elimination rate `β` applied per drink from the end of its lag.
+    ///   - Drinks that begin in the future (relative to `date`) contribute nothing yet.
     static func projectedBAC(
         at date: Date,
         session: DrinkSession,
         user: UserProfile,
         eaten: Bool
     ) -> Double {
-        // No drinks → 0
-        guard let firstStart = session.entries.map(\.startedAt).min() else { return 0 }
-        
-        // Absorption params (rough population averages)
-        // Fasted: t_lag ≈ 10–15 min, k_a ≈ 1.0 h⁻¹ (half‑life ~40 min)
-        // Fed:    t_lag ≈ 20–30 min, k_a ≈ 0.4–0.6 h⁻¹
-        let tLagSeconds: TimeInterval = eaten ? 25 * 60 : 12 * 60
-        let kaPerHour: Double = eaten ? 0.5 : 1.0
+        // Fasted vs. fed absorption parameters (population‑level approximations)
+        let tLagSeconds: TimeInterval = eaten ? 25 * 60 : 12 * 60      // 25 min vs 12 min
+        let kaPerHour: Double = eaten ? 0.5 : 1.0                      // ~0.5/h vs ~1.0/h
         let kaPerSecond = kaPerHour / 3600.0
         
+        // Widmark distribution
+        let r = user.alcoholDistributionRatio
+        let bodyMassGrams = max(user.weightKg, 1) * 1000.0
         
-        var absorbedGrams = 0.0
+        // Elimination rate
+        let beta: Double = 0.015
+        
+        // Helper: convert grams in body to %BAC
+        func gramsToPercentBAC(_ grams: Double) -> Double {
+            (grams / (bodyMassGrams * r)) * 100.0
+        }
+        
+        // Sum per‑drink BAC contributions
+        var totalBAC = 0.0
         
         for entry in session.entries {
-            // Ignore drinks that start in the future relative to `date`
+            // Ignore drinks that haven't started yet
             guard entry.startedAt <= date else { continue }
             
             let A0 = entry.drink.alcoholGrams
-            let t = date.timeIntervalSince(entry.startedAt)
             
-            if t <= tLagSeconds {
-                // Still in lag phase → no absorption yet from this drink
+            // Time since drink start
+            let tSinceStart = date.timeIntervalSince(entry.startedAt)
+            
+            // If we're still within lag for this drink, nothing absorbed yet
+            if tSinceStart <= tLagSeconds {
                 continue
-            } else {
-                // First‑order absorption after lag: A_abs = A0 * (1 − e^(−k_a * Δt))
-                let dt = t - tLagSeconds                      // seconds since end of lag
-                let fractionAbsorbed = 1.0 - exp(-kaPerSecond * dt)
-                let absorbed = min(A0 * fractionAbsorbed, A0) // cap at full drink
-                absorbedGrams += absorbed
             }
+            
+            // Absorption time (post-lag)
+            let dtAbsorb = tSinceStart - tLagSeconds
+            
+            // First‑order absorption: fraction absorbed by now
+            let fractionAbsorbed = 1.0 - exp(-kaPerSecond * dtAbsorb)
+            let absorbedGrams = min(A0 * fractionAbsorbed, A0)
+            
+            // Gross BAC contribution from this drink
+            let bacGross_i = gramsToPercentBAC(absorbedGrams)
+            
+            // Per‑drink elimination clock starts when lag ends for this drink
+            let hoursSinceAbsorptionStart = dtAbsorb / 3600.0
+            let eliminated_i = beta * max(hoursSinceAbsorptionStart, 0)
+            
+            // Net, clamp at zero (a single drink’s contribution can be fully eliminated)
+            let bacNet_i = max(bacGross_i - eliminated_i, 0.0)
+            
+            totalBAC += bacNet_i
         }
         
-        // 2) Distribution (Widmark)
-        let r = user.alcoholDistributionRatio
-        let bodyMassGrams = max(user.weightKg, 1) * 1000.0
-        let bacGross = (absorbedGrams / (bodyMassGrams * r)) * 100.0  // convert to %BAC
-        
-        // 3) Elimination (population avg. β ≈ 0.015 %BAC/hour)
-        // Start eliminating once alcohol plausibly reaches blood after the first drink’s lag.
-        let beta = 0.015
-        let hoursSinceAbsorptionStart = max((date.timeIntervalSince(firstStart) - tLagSeconds) / 3600.0, 0)
-        let eliminated = beta * hoursSinceAbsorptionStart
-        
-        // 4) Net BAC (never negative)
-        return max(bacGross - eliminated, 0)
+        // Never negative overall
+        return max(totalBAC, 0.0)
     }
     
     
