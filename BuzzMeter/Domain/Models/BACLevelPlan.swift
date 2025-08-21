@@ -6,8 +6,14 @@
 //
 import Foundation
 
-struct BACLevelPlan: Identifiable, Codable {
-    var id = UUID()
-    var targetBAC: Double
-    var nextDrink: Drink
+final class BACLevelPlan: ObservableObject {
+    @Published var targetBAC: Double
+    @Published var nextDrink: Drink
+    @Published var eaten: Bool
+    
+    init(targetBAC: Double = 0.06, nextDrink: Drink = Drink.default(for: Drink.Category.beer),eaten: Bool = false) {
+        self.targetBAC = targetBAC
+        self.eaten = eaten
+        self.nextDrink = nextDrink
+    }
 }
