@@ -15,8 +15,6 @@ struct DrinkInputView: View {
     @State private var volumeMl: Double = 0
     @State private var abv: Double = Drink.Category.cocktail.defaultABV
     
-    @State private var navigate = false
-    
     var body: some View {
         Form {
             Picker("Category", selection: $category) {
