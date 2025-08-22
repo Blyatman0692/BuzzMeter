@@ -13,8 +13,6 @@ struct DashboardView: View {
     @State private var currentNaiveBAC: Double = 0
     @State private var currentProjectedBAC: Double = 0
     @State private var etaToPlanTarget: Date? = nil
-    @State private var planTargetBACDisplay: Double = 0
-    
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -43,13 +41,21 @@ struct DashboardView: View {
             // row with countdown
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .firstTextBaseline) {
-                    Text("Don't drink until")
-                        .font(.headline)
-                    
                     if let eta = etaToPlanTarget {
-                        Text(eta, style: .time)
-                            .monospacedDigit()
-                            .font(.title3.weight(.semibold))
+                        if (Calendar.current.isDate(eta, equalTo: Date(), toGranularity: .minute)) {
+                            Text("You can drink \(appVM.plan.nextDrink.name) Now")
+                                .monospacedDigit()
+                                .font(.title3.weight(.semibold))
+                                .foregroundStyle(.green)
+                        } else {
+                            Text("Don't drink until")
+                                .font(.headline)
+                            
+                            Text(eta, style: .time)
+                                .monospacedDigit()
+                                .font(.title3.weight(.semibold))
+                        }
+                        
                     } else {
                         Text("> 24h or unknown")
                             .font(.subheadline)
@@ -60,15 +66,18 @@ struct DashboardView: View {
                     
                     // Target buzz label on the right
                     let target = appVM.plan.targetBAC
-                    Text("to stay \(BuzzLevel.fromBAC(target))")
+                    Text("to stay")
                         .font(.headline)
+                    Text(BuzzLevel.fromBAC(target).displayName)
+                        .font(.headline)
+                        .italic()
                 }
                 
                 // Live countdown without manual timer wiring
                 if let eta = etaToPlanTarget {
                     TimelineView(.periodic(from: .now, by: 1)) { _ in
                         let remaining = max(eta.timeIntervalSinceNow, 0)
-                        Text("Countdown: \(Self.hms(from: remaining))")
+                        Text("Timer: \(Self.hms(from: remaining))")
                             .monospacedDigit()
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
@@ -103,14 +112,13 @@ struct DashboardView: View {
         )
         
         // Compute ETA to plan target BAC if a plan exists
-        let plan = appVM.plan
-        planTargetBACDisplay = plan.targetBAC
-        etaToPlanTarget = BACCalculator.earliestTime(
-            toReach: plan.targetBAC,
+        etaToPlanTarget = BACCalculator.waitUntilSafeForNextDrink(
+            targetBAC: appVM.plan.targetBAC,
+            nextDrink: appVM.plan.nextDrink,
             from: now,
             session: appVM.session,
             user: appVM.userProfile,
-            eaten: eaten
+            eaten: appVM.plan.eaten
         )
     }
     
